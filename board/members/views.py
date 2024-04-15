@@ -17,7 +17,7 @@ class SignUpAPI(APIView):
         if not re.search("[@]", email) or not re.search("[.]", email):
             return Response({"result: 이메일 오류"}, status=400)
         
-        if len(password) < 8 or not re.search("[0-9]", password) or not re.search("[*~!#$^%?]", password):
+        if len(password) < 8 or not re.search("[0-9]", password) or not re.search("[a-zA-Z]", password) or not re.search("[*~!#$^%?]", password):
             return Response({"result: 비밀번호 오류"}, status=400)
         
         try:
