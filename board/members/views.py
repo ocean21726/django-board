@@ -56,7 +56,21 @@ class SignInAPI(APIView):
             password = data['password']
             
             if bcrypt.checkpw(password.encode('utf-8'), bytes(Member.objects.get(email=email).password, "utf-8")):
-                return Response({"message": "로그인 성공"}, status=200)
+                token = TokenObtainPairSerializer.get_token(Member.objects.get(email=email))
+                refresh_token = str(token)
+                access_token = str(token.access_token)
+                res = {
+                    "message": "로그인 성공",
+                    "member": {
+                        "name": Member.objects.get(email=email).name,
+                        "email": email,
+                    },
+                    "token": {
+                        "access": access_token,
+                        "refresh": refresh_token,
+                    }
+                }
+                return Response(res, status=200)
             
             return Response({"message": "로그인 실패"}, status=400)
         except KeyError:
