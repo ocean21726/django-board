@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+{% if board %}
+  <table class="table table-bordered text-center">
+    <thead>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="col">번호</th>
+            <td>{{ board.idx }}</td>
+        </tr>
+        <tr>
+          <th scope="col">조회수</th>
+          <td>{{ board.view_count }}</td>
+        </tr>
+        <tr>
+          <th scope="col">작성자</th>
+          <td>{{ board.name }}</td>
+        </tr>
+        <tr>
+            <th scope="col">제목</th>
+            <td>{{ board.title }}</td>
+        </tr>
+        <tr>
+            <th scope="col">내용</th>
+            <td>{{ board.contents }}</td>
+        </tr>
+
+
+    </tbody>
+  </table>
+{% endif %}
+
+{% comment %} <div class="container mt-4">
+  <form action="" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form boardForm %}
+    <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
+  </form>
+</div> {% endcomment %}
+{% endblock %}
