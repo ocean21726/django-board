@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'members',
+    'boards',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
