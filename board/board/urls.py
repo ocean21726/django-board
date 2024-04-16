@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from members.views import SignUpAPI, SignInAPI
+from members.views import SignUpAPI, SignInAPI, register
 from boards.views import list, detail, create
 
 urlpatterns = [
@@ -28,5 +28,6 @@ urlpatterns = [
     path('api/auth/refresh', TokenRefreshView.as_view()),
     path('board/list', list),
     path('board/detail/<int:idx>', detail),
-    path('board/create', create)
+    path('board/create', create),
+    path('register', register),
 ]
