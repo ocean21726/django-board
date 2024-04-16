@@ -18,10 +18,10 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 from members.views import SignUpAPI, SignInAPI
-from boards.views import main, list, detail, create
+from boards.views import list, detail, create
 
 urlpatterns = [
-    path('', main),
+    path('', list),
     path('admin/', admin.site.urls),
     path('api/sign-up', SignUpAPI.as_view()),
     path('api/sign-in', SignInAPI.as_view()),

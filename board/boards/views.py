@@ -4,9 +4,6 @@ from .models import Board
 
 # Create your views here.
 
-def main(request):
-    return render(request, 'base.html')
-
 def list(request):
     if request.method == "GET":
         boardForm = BoardForm
