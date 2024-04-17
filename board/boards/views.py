@@ -25,17 +25,18 @@ def detail(request, idx):
 
 def create(request):
     if request.method == "POST":
-        form = BoardForm(request.POST)
-        if form.is_valid():
+        data = request.POST
+        title = data['title']
+        contents = data['contents']
+        
+        try:
             board = Board.objects.create(
-                name = "테스트 이름",
-                email = "테스트 이메일",
-                title = form['title'],
-                contents = form['contents'],
+                name = '임시 테스트',
+                email = 'test@test.com',
+                title = title,
+                contents = contents,
             )
-            return redirect('detail', idx=board.idx)
-        else:
-            return render(request, 'board/create.html', {'form': form})
-    else:
-        form = BoardForm()
-    return render(request, 'board/create.html', {'form': form})
+            return render(request, 'board/detail.html', {'board': board})
+        except Exception as e:
+            return redirect('/')
+    return render(request, 'board/create.html') 

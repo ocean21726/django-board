@@ -20,6 +20,14 @@
           <td>{{ board.name }}</td>
         </tr>
         <tr>
+          <th scope="col">작성일자</th>
+          <td>{{ board.created_at }}</td>
+        </tr>
+        <tr>
+          <th scope="col">수정일자</th>
+          <td>{% if board.updated_at != None %} {{ board.updated_at }} {% else %} {{ "" }} {% endif %}</td>
+        </tr>
+        <tr>
             <th scope="col">제목</th>
             <td>{{ board.title }}</td>
         </tr>
@@ -27,11 +35,10 @@
             <th scope="col">내용</th>
             <td>{{ board.contents }}</td>
         </tr>
-
-
     </tbody>
   </table>
 {% endif %}
+<button type="button" onclick="location.href='/'">목록으로</button>
 
 {% comment %} <div class="container mt-4">
   <form action="" method="POST">
