@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .form import BoardForm
 from .models import Board
+from rest_framework.views import APIView
+from .serializers import BoardSerializer
 
 # Create your views here.
 
