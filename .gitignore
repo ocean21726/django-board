@@ -6,5 +6,6 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
+/board/board/settings.py
 /board/settings.py
 venv
