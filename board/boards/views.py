@@ -39,4 +39,4 @@ def create(request):
             return render(request, 'board/detail.html', {'board': board})
         except Exception as e:
             return redirect('/')
-    return render(request, 'board/create.html') 
+    return render(request, 'board/create.html')

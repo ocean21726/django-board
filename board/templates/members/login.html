@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="wrapper" style="text-align: center;">
+  <h1>로그인</h1>
+
+
+{% if messages %}
+
+<ul class="messages">
+
+    {% for message in messages %}
+
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+
+    {% endfor %}
+
+</ul>
+
+{% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+    Email: <br>
+    <input name="email" type="email"><br>
+    비밀번호: <br>
+    <input name="password" type="password"><br>
+    <br>
+    <input type="submit" class="btn btn-primary" value="로그인">
+  </form>
+</div>
+{% endblock %}

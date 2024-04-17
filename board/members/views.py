@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from .serializers import MemberSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib import messages
 
 import bcrypt
 import re
@@ -118,3 +119,41 @@ def register(request):
         
         return Response({"message": "회원가입 실패"}, status=400)
     return render(request, 'members/register.html')
+
+def login(request):
+    if request.method == "POST":
+        try:
+            data = request.POST
+            email = data['email']
+            password = data['password']
+            member = Member.objects.get(email=email)
+            
+            if bcrypt.checkpw(password.encode('utf-8'), bytes(member.password, "utf-8")):
+                token = TokenObtainPairSerializer.get_token(member)
+                refresh_token = str(token)
+                access_token = str(token.access_token)
+                res = {
+                    "message": "로그인 성공",
+                    "member": {
+                        "name": Member.objects.get(email=email).name,
+                        "email": email,
+                    },
+                    "token": {
+                        "access": access_token,
+                        "refresh": refresh_token,
+                    }
+                }
+                # return Response(res, status=200, headers={"Authorization": access_token})
+                return redirect('/', res)
+            
+            # return Response({"message": "로그인 실패"}, status=400)
+            messages.warning(request, "로그인 실패")
+        except KeyError:
+            messages.warning(request, "로그인 데이터 오류")
+            # return Response({"message": "로그인 데이터 오류"}, status=400)
+            # return render(request, 'members/login.html', {"messages": "로그인 데이터 오류"})
+        except Member.DoesNotExist:
+            messages.warning(request, "로그인 정보 없음")
+            # return Response({"message": "로그인 정보 없음"}, status=400)
+            # return render(request, 'members/login.html', {"messages": "로그인 정보 없음"})
+    return render(request, 'members/login.html')
