@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 from members.views import SignUpAPI, SignInAPI, register, login
-from boards.views import list, detail, create
+from boards.views import list, detail, create, update
 
 urlpatterns = [
     path('', list),
@@ -26,9 +26,10 @@ urlpatterns = [
     path('api/sign-up', SignUpAPI.as_view()),
     path('api/sign-in', SignInAPI.as_view()),
     path('api/auth/refresh', TokenRefreshView.as_view()),
+    path('register', register),
+    path('login', login),
     path('board/list', list),
     path('board/detail/<int:idx>', detail),
     path('board/create', create),
-    path('register', register),
-    path('login', login),
+    path('board/update/<int:idx>', update)
 ]

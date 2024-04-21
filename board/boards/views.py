@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .form import BoardForm
 from .models import Board
 from rest_framework.views import APIView
+from django.utils import timezone
 
 # Create your views here.
 
@@ -40,3 +41,25 @@ def create(request):
         except Exception as e:
             return redirect('/')
     return render(request, 'board/create.html')
+
+def update(request, idx):
+    if request.method == "POST":
+        data = request.POST
+        title = data['title']
+        contents = data['contents']
+        
+        try:
+            board = Board.objects.filter(idx=idx).update(
+                title = title,
+                contents = contents,
+                updated_at = timezone.now()
+            )
+            return redirect(request, 'board/detail', idx)
+        except Exception as e:
+            return redirect('/')
+    else:
+        board = Board.objects.get(idx=idx)
+        context = {
+            'board': board
+        }
+        return render(request, 'board/update.html', context)
