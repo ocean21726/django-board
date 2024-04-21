@@ -4,6 +4,7 @@ from .models import Board
 from rest_framework.views import APIView
 from django.utils import timezone
 from django.contrib import messages
+from .serializers import BoardSerializer
 
 def list(request):
     if request.method == "GET":
@@ -17,7 +18,7 @@ def list(request):
 
 def detail(request, idx):
     if request.method == "GET":
-        updateView(idx)
+        update_view(idx)
         board = Board.objects.get(idx=idx)
         context = {
             'board': board
@@ -30,16 +31,20 @@ def create(request):
         title = data['title']
         contents = data['contents']
         
-        try:
-            board = Board.objects.create(
-                name = '임시 테스트',
-                email = 'test@test.com',
-                title = title,
-                contents = contents,
-            )
-            return render(request, 'board/detail.html', {'board': board})
-        except Exception as e:
-            return redirect('/')
+        create_data = BoardSerializer(data=data)
+        if create_data.is_valid():
+            try:
+                board = Board.objects.create(
+                    name = '임시 테스트',
+                    email = 'test@test.com',
+                    title = title,
+                    contents = contents,
+                )
+                return render(request, 'board/detail.html', {'board': board})
+            except Exception as e:
+                return redirect('/')
+        messages.error(request, '빈칸은 등록할 수 없습니다.')
+        return render(request, 'board/create.html')
     return render(request, 'board/create.html')
 
 def update(request, idx):
@@ -76,7 +81,7 @@ def delete(request, idx):
                 return redirect('/')
     return render(request, 'board/detail.html', {'board': board})
 
-def updateView(idx):
+def update_view(idx):
     board = Board.objects.get(idx=idx)
     if board:
         Board.objects.filter(idx=idx).update(
