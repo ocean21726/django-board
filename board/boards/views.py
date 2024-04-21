@@ -53,21 +53,23 @@ def update(request, idx):
         title = data['title']
         contents = data['contents']
         
-        try:
-            board = Board.objects.filter(idx=idx).update(
-                title = title,
-                contents = contents,
-                updated_at = timezone.now()
-            )
-            return redirect(request, 'board/detail', idx)
-        except Exception as e:
-            return redirect('/')
-    else:
-        board = Board.objects.get(idx=idx)
-        context = {
-            'board': board
-        }
-        return render(request, 'board/update.html', context)
+        update_data = BoardSerializer(data=data)
+        if update_data.is_valid():
+            try:
+                board = Board.objects.filter(idx=idx).update(
+                    title = title,
+                    contents = contents,
+                    updated_at = timezone.now()
+                )
+                return redirect(request, 'board/detail', idx)
+            except Exception as e:
+                return redirect('/')
+        messages.error(request, '빈칸은 등록할 수 없습니다.')
+    board = Board.objects.get(idx=idx)
+    context = {
+        'board': board
+    }
+    return render(request, 'board/update.html', context)
     
 def delete(request, idx):
     board = Board.objects.get(idx=idx)
