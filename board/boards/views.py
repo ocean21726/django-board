@@ -3,8 +3,7 @@ from .form import BoardForm
 from .models import Board
 from rest_framework.views import APIView
 from django.utils import timezone
-
-# Create your views here.
+from django.contrib import messages
 
 def list(request):
     if request.method == "GET":
@@ -63,3 +62,15 @@ def update(request, idx):
             'board': board
         }
         return render(request, 'board/update.html', context)
+    
+def delete(request, idx):
+    board = Board.objects.get(idx=idx)
+    if request.method == "GET":
+        try:
+            board.delete()
+            messages.success(request, '삭제되었습니다.')
+            return redirect(request, 'board/list')
+        except Exception as e:
+                messages.error(request, '삭제 오류')
+                return redirect('/')
+    return render(request, 'board/detail.html', {'board': board})

@@ -143,17 +143,11 @@ def login(request):
                         "refresh": refresh_token,
                     }
                 }
-                # return Response(res, status=200, headers={"Authorization": access_token})
                 return redirect('/', res)
             
-            # return Response({"message": "로그인 실패"}, status=400)
             messages.warning(request, "로그인 실패")
         except KeyError:
             messages.warning(request, "로그인 데이터 오류")
-            # return Response({"message": "로그인 데이터 오류"}, status=400)
-            # return render(request, 'members/login.html', {"messages": "로그인 데이터 오류"})
         except Member.DoesNotExist:
             messages.warning(request, "로그인 정보 없음")
-            # return Response({"message": "로그인 정보 없음"}, status=400)
-            # return render(request, 'members/login.html', {"messages": "로그인 정보 없음"})
     return render(request, 'members/login.html')
