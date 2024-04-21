@@ -17,6 +17,7 @@ def list(request):
 
 def detail(request, idx):
     if request.method == "GET":
+        updateView(idx)
         board = Board.objects.get(idx=idx)
         context = {
             'board': board
@@ -74,3 +75,10 @@ def delete(request, idx):
                 messages.error(request, '삭제 오류')
                 return redirect('/')
     return render(request, 'board/detail.html', {'board': board})
+
+def updateView(idx):
+    board = Board.objects.get(idx=idx)
+    if board:
+        Board.objects.filter(idx=idx).update(
+            view_count = board.view_count + 1
+        )
