@@ -4,12 +4,19 @@
         <h1>게시글 생성</h1>
         <form method="POST">
             {% csrf_token %}
-            제목:
-            <input name="title" type="text" style="witdh:300px"><br>
-            내용: <br>
-            <input name="contents" type="text" style="witdh:300px;height:400px"><br>
-            <br>
-            <input type="submit" class="btn btn-primary" value="등록">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
+                </div>
+                <input name="title" type="text" class="form-control" aria-describedby="inputGroup-sizing-default">
+            </div>
+            <div class="form-group">
+                <textarea name="contents" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3 mb-3">
+                <input type="submit" class="btn btn-primary" value="등록" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                <button type="button" class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" onclick="location.href='/'">취소</button>
+            </div>
         </form>
     </div>
 {% endblock %}
