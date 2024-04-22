@@ -23,9 +23,11 @@ from boards.views import list, detail, create, update, delete
 urlpatterns = [
     path('', list),
     path('admin/', admin.site.urls),
+    # API 구현
     path('api/sign-up', SignUpAPI.as_view()),
     path('api/sign-in', SignInAPI.as_view()),
     path('api/auth/refresh', TokenRefreshView.as_view()),
+    # 템플릿과 연동한 구현
     path('register', register),
     path('login', login),
     path('board/list', list),

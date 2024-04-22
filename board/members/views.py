@@ -11,15 +11,18 @@ from django.contrib import messages
 import bcrypt
 import re
 
+# 회원가입 API
 class SignUpAPI(APIView):
     def post(self, request):
         data = request.data
         email = data['email']
         password = data['password']
         
+        # 이메일 유효성 검사
         if not re.search("[@]", email) or not re.search("[.]", email):
             return Response({"message": "이메일 오류"}, status=400)
         
+        # 비밀번호 유효성 검사
         if len(password) < 8 or not re.search("[0-9]", password) or not re.search("[a-zA-Z]", password) or not re.search("[*~!#$^%?]", password):
             return Response({"message": "비밀번호 오류"}, status=400)
         
@@ -31,6 +34,7 @@ class SignUpAPI(APIView):
                 email = email,
                 password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8"),
             )
+            # jwt 생성
             token = TokenObtainPairSerializer.get_token(member)
             refresh_token = str(token)
             access_token = str(token.access_token)
@@ -48,7 +52,8 @@ class SignUpAPI(APIView):
             return Response(res, status=200)
         
         return Response({"message": "회원가입 실패"}, status=400)
-    
+
+# 로그인 API
 class SignInAPI(APIView):
     def post(self, request):
         try:
@@ -57,6 +62,7 @@ class SignInAPI(APIView):
             password = data['password']
             member = Member.objects.get(email=email)
             
+            # 비밀번호 일치 여부 확인
             if bcrypt.checkpw(password.encode('utf-8'), bytes(member.password, "utf-8")):
                 token = TokenObtainPairSerializer.get_token(member)
                 refresh_token = str(token)
@@ -79,17 +85,20 @@ class SignInAPI(APIView):
             return Response({"message": "로그인 데이터 오류"}, status=400)
         except Member.DoesNotExist:
             return Response({"message": "로그인 정보 없음"}, status=400)
-        
+
+# 회원가입        
 def register(request):
     if request.method == 'POST':
         data = request.POST
         email = data['email']
         password = data['password']
         
+        # 이메일 유효성 검사
         if not re.search("[@]", email) or not re.search("[.]", email):
             messages.error(request, '이메일 오류')
             return render(request, 'members/register.html')
         
+        # 비밀번호 유효성 검사
         if len(password) < 8 or not re.search("[0-9]", password) or not re.search("[a-zA-Z]", password) or not re.search("[*~!#$^%?]", password):
             messages.error(request, '비밀번호 오류')
             return render(request, 'members/register.html')
@@ -102,6 +111,7 @@ def register(request):
                 email = email,
                 password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8"),
             )
+            # jwt 생성
             token = TokenObtainPairSerializer.get_token(member)
             refresh_token = str(token)
             access_token = str(token.access_token)
@@ -122,6 +132,7 @@ def register(request):
         return render(request, 'members/register.html')
     return render(request, 'members/register.html')
 
+# 로그인
 def login(request):
     if request.method == "POST":
         try:
@@ -130,6 +141,7 @@ def login(request):
             password = data['password']
             member = Member.objects.get(email=email)
             
+            # 비밀번호 일치 여부 확인
             if bcrypt.checkpw(password.encode('utf-8'), bytes(member.password, "utf-8")):
                 token = TokenObtainPairSerializer.get_token(member)
                 refresh_token = str(token)

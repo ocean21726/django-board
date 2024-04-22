@@ -3,5 +3,5 @@ from .models import Board
 
 class BoardSerializer(serializers.ModelSerializer) :
     class Meta :
-        model = Board         # member 모델 사용
+        model = Board
         fields = ['title', 'contents']

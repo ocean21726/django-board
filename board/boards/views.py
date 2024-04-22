@@ -6,15 +6,16 @@ from django.utils import timezone
 from django.contrib import messages
 from .serializers import BoardSerializer
 
+# 게시글 목록
 def list(request, order_type='earliest'):
     if request.method == "GET":
-        if order_type == 'hitsd':
+        if order_type == 'hitsd':       # 조회수 내림차순
             board = Board.objects.all().order_by('-view_count')
-        elif order_type == 'hitsa':
+        elif order_type == 'hitsa':     # 조회수 오름차순
             board = Board.objects.all().order_by('view_count')
-        elif order_type == 'latest':
+        elif order_type == 'latest':    # 작성일자 내림차순
             board = Board.objects.all().order_by('-idx')
-        elif order_type == 'earliest':
+        elif order_type == 'earliest':  # 작성일자 오름차순
             board = Board.objects.all().order_by('idx')
         else:
             return redirect('/')
@@ -23,6 +24,7 @@ def list(request, order_type='earliest'):
         }  
         return render(request, 'board/list.html', context)
 
+# 게시글 상세
 def detail(request, idx):
     if request.method == "GET":
         update_view(idx)
@@ -32,12 +34,14 @@ def detail(request, idx):
         }
         return render(request, 'board/detail.html', context)
 
+# 게시글 등록
 def create(request):
     if request.method == "POST":
         data = request.POST
         title = data['title']
         contents = data['contents']
         
+        # 빈칸 확인
         create_data = BoardSerializer(data=data)
         if create_data.is_valid():
             try:
@@ -54,12 +58,14 @@ def create(request):
         return render(request, 'board/create.html')
     return render(request, 'board/create.html')
 
+# 게시글 수정
 def update(request, idx):
     if request.method == "POST":
         data = request.POST
         title = data['title']
         contents = data['contents']
         
+        # 빈칸 확인
         update_data = BoardSerializer(data=data)
         if update_data.is_valid():
             try:
@@ -77,7 +83,8 @@ def update(request, idx):
         'board': board
     }
     return render(request, 'board/update.html', context)
-    
+
+# 게시글 삭제
 def delete(request, idx):
     board = Board.objects.get(idx=idx)
     if request.method == "GET":
@@ -90,6 +97,7 @@ def delete(request, idx):
             return redirect('/')
     return render(request, 'board/detail.html', {'board': board})
 
+# 게시글 조회수 업데이트
 def update_view(idx):
     board = Board.objects.get(idx=idx)
     if board:
