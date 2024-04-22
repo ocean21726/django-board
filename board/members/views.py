@@ -87,10 +87,12 @@ def register(request):
         password = data['password']
         
         if not re.search("[@]", email) or not re.search("[.]", email):
-            return Response({"message": "이메일 오류"}, status=400)
+            messages.error(request, '이메일 오류')
+            return render(request, 'members/register.html')
         
         if len(password) < 8 or not re.search("[0-9]", password) or not re.search("[a-zA-Z]", password) or not re.search("[*~!#$^%?]", password):
-            return Response({"message": "비밀번호 오류"}, status=400)
+            messages.error(request, '비밀번호 오류')
+            return render(request, 'members/register.html')
         
         try:
             Member.objects.get(email=email)
@@ -116,8 +118,8 @@ def register(request):
             }
 
             return redirect('/', res)
-        
-        return Response({"message": "회원가입 실패"}, status=400)
+        messages.error(request, '회원가입 실패')
+        return render(request, 'members/register.html')
     return render(request, 'members/register.html')
 
 def login(request):
@@ -144,10 +146,12 @@ def login(request):
                     }
                 }
                 return redirect('/', res)
-            
             messages.warning(request, "로그인 실패")
+            return render(request, 'members/login.html')
         except KeyError:
             messages.warning(request, "로그인 데이터 오류")
+            return render(request, 'members/login.html')
         except Member.DoesNotExist:
             messages.warning(request, "로그인 정보 없음")
+            return render(request, 'members/login.html')
     return render(request, 'members/login.html')
