@@ -1,19 +1,28 @@
+{% extends 'base.html' %}
 {% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
-{% bootstrap_messages %}
 {% block content %}
 <div class="wrapper" style="text-align: center;">
   <h1>회원가입</h1>
   <form method="POST">
     {% csrf_token %}
-    이름: <br>
-    <input name="name" type="text"><br>
-    Email: <br>
-    <input name="email" type="email"><br>
-    비밀번호: <br>
-    <input name="password" type="password"><br>
-    <br>
+    <div class="row justify-content-center mb-3">
+      <label class="col-sm-2 col-form-label">이름</label>
+      <div class="col-xs-4">
+        <input type="name" class="form-control" name="name" >
+      </div>
+    </div>
+    <div class="row justify-content-center mb-3">
+      <label class="col-sm-2 col-form-label">Email</label>
+      <div class="col-xs-4">
+        <input type="email" class="form-control" name="email" >
+      </div>
+    </div>
+    <div class="row justify-content-center mb-3">
+      <label class="col-sm-2 col-form-label">Password</label>
+      <div class="ol-xs-4">
+        <input type="password" class="form-control" name="password" >
+      </div>
+    </div>
     <input type="submit" class="btn btn-primary" value="회원가입">
   </form>
 </div>
