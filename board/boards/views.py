@@ -14,8 +14,10 @@ def list(request, order_type='earliest'):
             board = Board.objects.all().order_by('view_count')
         elif order_type == 'latest':
             board = Board.objects.all().order_by('-idx')
-        else:
+        elif order_type == 'earliest':
             board = Board.objects.all().order_by('idx')
+        else:
+            return redirect('/')
         context = {
             'board': board
         }  
