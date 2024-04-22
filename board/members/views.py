@@ -146,12 +146,12 @@ def login(request):
                     }
                 }
                 return redirect('/', res)
-            messages.warning(request, "로그인 실패")
+            messages.error(request, "로그인 실패")
             return render(request, 'members/login.html')
         except KeyError:
-            messages.warning(request, "로그인 데이터 오류")
+            messages.error(request, "로그인 데이터 오류")
             return render(request, 'members/login.html')
         except Member.DoesNotExist:
-            messages.warning(request, "로그인 정보 없음")
+            messages.error(request, "로그인 정보 없음")
             return render(request, 'members/login.html')
     return render(request, 'members/login.html')

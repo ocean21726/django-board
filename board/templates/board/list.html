@@ -2,17 +2,17 @@
 {% load bootstrap4 %}
 {% block content %}
 
-<div class="row mt-2">
-<div class="col-12">
-    <button type="button" class="btn btn-secondary btn-lg btn-block" 
-    onclick="location.href='/login'">
-    로그인
-    </button>
-    <button type="button" class="btn btn-secondary btn-lg btn-block" 
-    onclick="location.href='/register'">
-    회원가입
-    </button>
-</div>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3 mb-3">
+  <button type="button" class="btn btn-outline-primary btn-sm" 
+  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+  onclick="location.href='/login'">
+  로그인
+  </button>
+  <button type="button" class="btn btn-outline-success btn-sm"
+  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" 
+  onclick="location.href='/register'">
+  회원가입
+  </button>
 </div>
 
 {% if board %}
@@ -37,13 +37,7 @@
     </tbody>
   </table>
 {% endif %}
-<button type="button" onclick="location.href='/board/create'">글쓰기</button>
-
-{% comment %} <div class="container mt-4">
-  <form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form boardForm %}
-    <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
-  </form>
-</div> {% endcomment %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <button type="button" class="btn btn-dark" onclick="location.href='/board/create'">글쓰기</button>
+<div>
 {% endblock %}
