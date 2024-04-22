@@ -6,14 +6,19 @@ from django.utils import timezone
 from django.contrib import messages
 from .serializers import BoardSerializer
 
-def list(request):
+def list(request, order_type='earliest'):
     if request.method == "GET":
-        boardForm = BoardForm
-        board = Board.objects.all()
+        if order_type == 'hitsd':
+            board = Board.objects.all().order_by('-view_count')
+        elif order_type == 'hitsa':
+            board = Board.objects.all().order_by('view_count')
+        elif order_type == 'latest':
+            board = Board.objects.all().order_by('-idx')
+        else:
+            board = Board.objects.all().order_by('idx')
         context = {
-            'boardForm': boardForm,
             'board': board
-        }
+        }  
         return render(request, 'board/list.html', context)
 
 def detail(request, idx):
@@ -77,10 +82,10 @@ def delete(request, idx):
         try:
             board.delete()
             messages.success(request, '삭제되었습니다.')
-            return redirect(request, 'board/list')
+            return redirect('/')
         except Exception as e:
-                messages.error(request, '삭제 오류')
-                return redirect('/')
+            messages.error(request, '삭제 오류')
+            return redirect('/')
     return render(request, 'board/detail.html', {'board': board})
 
 def update_view(idx):

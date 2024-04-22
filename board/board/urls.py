@@ -28,7 +28,7 @@ urlpatterns = [
     path('api/auth/refresh', TokenRefreshView.as_view()),
     path('register', register),
     path('login', login),
-    path('board/list', list),
+    path('board/list/<str:order_type>', list),
     path('board/detail/<int:idx>', detail),
     path('board/create', create),
     path('board/update/<int:idx>', update),

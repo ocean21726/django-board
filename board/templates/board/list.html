@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3 mb-3">
   <button type="button" class="btn btn-outline-primary btn-sm" 
   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
@@ -11,6 +10,29 @@
   style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" 
   onclick="location.href='/register'">
   회원가입
+  </button>
+</div>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3 mb-3">
+  <button type="button" class="btn btn-outline-secondary btn-sm" 
+  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+  onclick="location.href='/board/list/hitsd'">
+  조회수↑
+  </button>
+  <button type="button" class="btn btn-outline-secondary btn-sm" 
+  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+  onclick="location.href='/board/list/hitsa'">
+  조회수↓
+  </button>
+  <button type="button" class="btn btn-outline-secondary btn-sm"
+  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" 
+  onclick="location.href='/board/list/latest'">
+  최신순
+  </button>
+  <button type="button" class="btn btn-outline-secondary btn-sm"
+  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" 
+  onclick="location.href='/board/list/earliest'">
+  오래된순
   </button>
 </div>
 
