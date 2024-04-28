@@ -17,14 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from members.views import SignUpAPI, SignInAPI, register, login
+from members.views import SignUpAPI, SignInAPI, register, login, NewSignUpAPI
 from boards.views import list, detail, create, update, delete
 
 urlpatterns = [
     path('', list),
     path('admin/', admin.site.urls),
     # API 구현
-    path('api/sign-up', SignUpAPI.as_view()),
+    # path('api/sign-up', SignUpAPI.as_view()),
+    path('api/sign-up', NewSignUpAPI.as_view()),
     path('api/sign-in', SignInAPI.as_view()),
     path('api/auth/refresh', TokenRefreshView.as_view()),
     # 템플릿과 연동한 구현

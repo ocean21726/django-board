@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from .models import Member
 from rest_framework.views import APIView
 from .serializers import MemberSerializer
@@ -52,6 +52,17 @@ class SignUpAPI(APIView):
             return Response(res, status=200)
         
         return Response({"message": "회원가입 실패"}, status=400)
+
+class NewSignUpAPI(generics.CreateAPIView):
+    # queryset = Member.objects.all()
+    serializer_class = MemberSerializer
+    
+    def post(self, request):
+        serializer = MemberSerializer(data=request.POST)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # 로그인 API
 class SignInAPI(APIView):
