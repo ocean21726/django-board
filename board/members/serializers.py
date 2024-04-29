@@ -6,7 +6,7 @@ from .models import Member
 import re
 import bcrypt
 
-class MemberSerializer(serializers.ModelSerializer) :
+class RegisterSerializer(serializers.ModelSerializer) :
     name = serializers.CharField(
         required = True,
     ),

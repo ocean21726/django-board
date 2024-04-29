@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from .models import Member
 from rest_framework.views import APIView
-from .serializers import MemberSerializer
+from .serializers import RegisterSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib import messages
@@ -55,10 +55,10 @@ class SignUpAPI(APIView):
 
 class NewSignUpAPI(generics.CreateAPIView):
     # queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+    serializer_class = RegisterSerializer
     
     def post(self, request):
-        serializer = MemberSerializer(data=request.POST)
+        serializer = RegisterSerializer(data=request.POST)
         if serializer.is_valid():
             serializer.save()
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
