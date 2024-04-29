@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from .models import Member
 from rest_framework.views import APIView
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib import messages
@@ -63,6 +63,27 @@ class NewSignUpAPI(generics.CreateAPIView):
             serializer.save()
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class NewSignInAPI(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    
+    def post(self, request):
+        serializer = LoginSerializer(data=request.POST)
+        if serializer.is_valid():
+            token = TokenObtainPairSerializer.get_token(serializer.validated_data)
+            refresh_token = str(token)
+            access_token = str(token.access_token)
+            response = {
+                "message": "로그인 성공",
+                "data": serializer.data,
+                "token": {
+                    "access_token": access_token,
+                    "refresh_token": refresh_token
+                }
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        return Response({"message": "로그인 실패"}, status=status.HTTP_401_UNAUTHORIZED)
+        
 
 # 로그인 API
 class SignInAPI(APIView):

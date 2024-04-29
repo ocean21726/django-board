@@ -9,5 +9,4 @@ media
 /board/board/settings.py
 /board/settings.py
 venv
-db.sqlite3
 sqlite3

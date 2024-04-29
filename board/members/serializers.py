@@ -34,3 +34,17 @@ class RegisterSerializer(serializers.ModelSerializer) :
             password = bcrypt.hashpw(validated_data['password'].encode("utf-8"), bcrypt.gensalt()).decode("utf-8"),
         )
         return member
+    
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
+    
+    def validate(self, data):
+        try:
+            member = Member.objects.get(email=data['email'])
+            if bcrypt.checkpw(data['password'].encode('utf-8'), bytes(member.password, "utf-8")):
+                return member
+            raise serializers.ValidationError('비밀번호가 일치하지 않습니다.')
+        except Member.DoesNotExist:
+            raise serializers.ValidationError('일치하는 회원 정보가 없습니다.')
+    
